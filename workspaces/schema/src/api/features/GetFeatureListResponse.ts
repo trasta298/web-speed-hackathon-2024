@@ -27,14 +27,6 @@ export const GetFeatureListResponseSchema = createSelectSchema(feature)
               id: true,
             }),
           }),
-        episodes: createSelectSchema(episode)
-          .pick({
-            chapter: true,
-            description: true,
-            id: true,
-            name: true,
-          })
-          .array(),
         image: createSelectSchema(image).pick({
           alt: true,
           id: true,

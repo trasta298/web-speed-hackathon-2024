@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
 
-import type { GetRankingListResponse } from '@wsh-2024/schema/src/api/rankings/GetRankingListResponse';
+import type { GetFeatureListResponse } from '@wsh-2024/schema/src/api/features/GetFeatureListResponse';
 
 import { Flex } from '../../../foundation/components/Flex';
 import { Image } from '../../../foundation/components/Image';
@@ -45,7 +45,7 @@ const _AvatarWrapper = styled.div`
 `;
 
 type Props = {
-  book: GetRankingListResponse[number]['book'];
+  book: GetFeatureListResponse[number]['book'];
 };
 
 const FeatureCard: React.FC<Props> = ({ book }) => {

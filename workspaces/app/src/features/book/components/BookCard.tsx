@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
 
-import type { GetRankingListResponse } from '@wsh-2024/schema/src/api/rankings/GetRankingListResponse';
+import type { GetReleaseResponse } from '@wsh-2024/schema/src/api/releases/GetReleaseResponse';
 
 import { Flex } from '../../../foundation/components/Flex';
 import { Image } from '../../../foundation/components/Image';
@@ -34,7 +34,7 @@ const _AvatarWrapper = styled.div`
 `;
 
 type Props = {
-  book: GetRankingListResponse[number]['book'];
+  book: GetReleaseResponse['books'][0]
 };
 
 const BookCard: React.FC<Props> = ({ book }) => {
