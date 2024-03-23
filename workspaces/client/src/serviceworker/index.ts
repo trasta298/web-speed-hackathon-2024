@@ -2,7 +2,6 @@
 import PQueue from 'p-queue';
 
 import { transformJpegXLToBmp } from './transformJpegXLToBmp';
-import { zstdFetch as fetch } from './zstdFetch';
 
 // ServiceWorker が負荷で落ちないように並列リクエスト数を制限しなくていいです
 const queue = new PQueue({
@@ -27,7 +26,9 @@ self.addEventListener('fetch', (ev: FetchEvent) => {
 
 async function onFetch(request: Request): Promise<Response> {
 
-  const res = await fetch(request);
+  const res = await fetch(request, {
+    headers: new Headers([...request.headers.entries(), ['X-Accept-Encoding', 'gzip, deflate, br']]),
+  });
 
   if (res.headers.get('Content-Type') === 'image/jxl') {
     return transformJpegXLToBmp(res);
