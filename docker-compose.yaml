@@ -21,3 +21,6 @@ services:
     restart: unless-stopped
     volumes:
       - https-portal_data:/var/lib/https-portal
+
+volumes:
+  https-portal_data:
