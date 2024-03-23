@@ -4,10 +4,9 @@ import PQueue from 'p-queue';
 import { transformJpegXLToBmp } from './transformJpegXLToBmp';
 import { zstdFetch as fetch } from './zstdFetch';
 
-// ServiceWorker が負荷で落ちないように並列リクエスト数を制限する
-// TODO: 緩和
+// ServiceWorker が負荷で落ちないように並列リクエスト数を制限しなくていいです
 const queue = new PQueue({
-  concurrency: 100,
+  concurrency: 1000,
 });
 
 self.addEventListener('install', (ev: ExtendableEvent) => {
