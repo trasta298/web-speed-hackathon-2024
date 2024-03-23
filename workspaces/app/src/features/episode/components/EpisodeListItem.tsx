@@ -33,6 +33,7 @@ type Props = {
 };
 
 export const EpisodeListItem: React.FC<Props> = ({ bookId, episodeId }) => {
+  // TODO: なくす
   const { data: episode } = useEpisode({ params: { episodeId } });
 
   const imageUrl = useImage({ height: 96, imageId: episode.image.id, width: 96 });
