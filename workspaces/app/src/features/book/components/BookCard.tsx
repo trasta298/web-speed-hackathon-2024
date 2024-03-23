@@ -1,6 +1,8 @@
 import { Suspense } from 'react';
 import { styled } from 'styled-components';
 
+import type { GetRankingListResponse } from '@wsh-2024/schema/src/api/rankings/GetRankingListResponse';
+
 import { Flex } from '../../../foundation/components/Flex';
 import { Image } from '../../../foundation/components/Image';
 import { Link } from '../../../foundation/components/Link';
@@ -33,17 +35,15 @@ const _AvatarWrapper = styled.div`
 `;
 
 type Props = {
-  bookId: string;
+  book: GetRankingListResponse[number]['book'];
 };
 
-const BookCard: React.FC<Props> = ({ bookId }) => {
-  const { data: book } = useBook({ params: { bookId } });
-
+const BookCard: React.FC<Props> = ({ book }) => {
   const imageUrl = useImage({ height: 128, imageId: book.image.id, width: 192 });
   const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
 
   return (
-    <_Wrapper href={`/books/${bookId}`}>
+    <_Wrapper href={`/books/${book.id}`}>
       {imageUrl != null && (
         <_ImgWrapper>
           <Image alt={book.image.alt} height={128} objectFit="cover" src={imageUrl} width={192} />
