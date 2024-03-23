@@ -42,34 +42,21 @@ async function createInjectDataStr(): Promise<Record<string, unknown>> {
 
 async function createHTML({
   body,
-  injectData,
   styleTags,
 }: {
   body: string;
-  injectData: Record<string, unknown>;
   styleTags: string;
 }): Promise<string> {
   const htmlContent = await fs.readFile(INDEX_HTML_PATH, 'utf-8');
 
   const content = htmlContent
     .replaceAll('<div id="root"></div>', `<div id="root">${body}</div>`)
-    .replaceAll('<style id="tag"></style>', styleTags)
-    .replaceAll(
-      '<script id="inject-data" type="application/json"></script>',
-      `<script id="inject-data" type="application/json">
-        ${jsesc(injectData, {
-          isScriptContext: true,
-          json: true,
-          minimal: true,
-        })}
-      </script>`,
-    );
+    .replaceAll('<style id="tag"></style>', styleTags);
 
   return content;
 }
 
 app.get('*', async (c) => {
-  const injectData = await createInjectDataStr();
   const sheet = new ServerStyleSheet();
 
   try {
@@ -82,7 +69,7 @@ app.get('*', async (c) => {
     );
 
     const styleTags = sheet.getStyleTags();
-    const html = await createHTML({ body, injectData, styleTags });
+    const html = await createHTML({ body, styleTags });
 
     return c.html(html);
   } catch (cause) {
