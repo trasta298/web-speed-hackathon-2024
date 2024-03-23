@@ -1,13 +1,8 @@
 import { useSetAtom } from 'jotai';
-import React, { useId } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import styled from 'styled-components';
 
 import { DialogContentAtom } from '../atoms/DialogContentAtom';
-import { COMPANY } from '../constants/Company';
-import { CONTACT } from '../constants/Contact';
-import { OVERVIEW } from '../constants/Overview';
-import { QUESTION } from '../constants/Question';
-import { TERM } from '../constants/Term';
 import { Color, Space, Typography } from '../styles/variables';
 
 import { Box } from './Box';
@@ -25,10 +20,33 @@ const _Content = styled.section`
 `;
 
 export const Footer: React.FC = () => {
-  const [isClient, setIsClient] = React.useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const [company, setCompany] = useState('');
+  const [contact, setContact] = useState('');
+  const [overview, setOverview] = useState('');
+  const [question, setQuestion] = useState('');
+  const [term, setTerm] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    fetch('/assets/Company.txt')
+      .then((response) => response.text())
+      .then((text) => setCompany(text));
+    fetch('/assets/Contact.txt')
+      .then((response) => response.text())
+      .then((text) => setContact(text));
+    fetch('/assets/Overview.txt')
+      .then((response) => response.text())
+      .then((text) => setOverview(text));
+    fetch('/assets/Question.txt')
+      .then((response) => response.text())
+      .then((text) => setQuestion(text));
+    fetch('/assets/Term.txt')
+      .then((response) => response.text())
+      .then((text) => setTerm(text));
   }, []);
 
   const termDialogA11yId = useId();
@@ -47,7 +65,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {TERM}
+          {term}
         </Text>
       </_Content>,
     );
@@ -61,7 +79,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {CONTACT}
+          {contact}
         </Text>
       </_Content>,
     );
@@ -75,7 +93,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {QUESTION}
+          {question}
         </Text>
       </_Content>,
     );
@@ -89,7 +107,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {COMPANY}
+          {company}
         </Text>
       </_Content>,
     );
@@ -103,7 +121,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {OVERVIEW}
+          {overview}
         </Text>
       </_Content>,
     );
