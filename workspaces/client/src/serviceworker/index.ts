@@ -1,8 +1,6 @@
 /// <reference types="@types/serviceworker" />
 import PQueue from 'p-queue';
 
-import { transformJpegXLToBmp } from './transformJpegXLToBmp';
-
 // ServiceWorker が負荷で落ちないように並列リクエスト数を制限しなくていいです
 const queue = new PQueue({
   concurrency: 1000,
@@ -30,9 +28,5 @@ async function onFetch(request: Request): Promise<Response> {
     headers: new Headers([...request.headers.entries(), ['X-Accept-Encoding', 'gzip, deflate, br']]),
   });
 
-  if (res.headers.get('Content-Type') === 'image/jxl') {
-    return transformJpegXLToBmp(res);
-  } else {
-    return res;
-  }
+  return res;
 }

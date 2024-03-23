@@ -15,7 +15,7 @@ export const ComicPageImage: React.FC<Props> = ({ pageImageId }) => {
     queryFn: async ({ queryKey: [, { pageImageId }] }) => {
       const image = new Image();
       image.src = getImageUrl({
-        format: 'jxl',
+        format: 'avif',
         imageId: pageImageId,
       });
       await image.decode();

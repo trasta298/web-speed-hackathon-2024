@@ -9,9 +9,9 @@ import { encrypt } from '../src/encrypt';
 
 import { createCanvasContext } from './createCavnasContext';
 import { createImageFromImageData } from './createImageFromImageData';
-import { readJpegXL } from './reader/readJpegXL';
+import { readAvif } from './reader/readAvif';
 import { readPng } from './reader/readPng';
-import { writeJpegXL } from './writer/writeJpegXL';
+import { writeAvif } from './writer/writeAvif';
 import { writePng } from './writer/writePng';
 
 const program = new Command();
@@ -58,9 +58,9 @@ program
       const exportImagePath = path.resolve(
         outputDirectory,
         path.dirname(path.relative(inputDirectory, sourceImagePath)),
-        path.parse(sourceImagePath).name + '.jxl',
+        path.parse(sourceImagePath).name + '.avif',
       );
-      await writeJpegXL({ filepath: exportImagePath, imageData: exportImageData });
+      await writeAvif({ filepath: exportImagePath, imageData: exportImageData });
 
       progress.increment();
     }
@@ -77,7 +77,7 @@ program
       format: '[{bar}] {percentage}% | ETA: {eta}s | {value}/{total} | {filename}',
     });
 
-    const imagePathList = await globby('**/*.jxl', {
+    const imagePathList = await globby('**/*.avif', {
       absolute: true,
       cwd: path.resolve(process.cwd(), inputDirectory),
     });
@@ -89,7 +89,7 @@ program
         filename: path.basename(sourceImagePath),
       });
 
-      const sourceImageData = await readJpegXL(sourceImagePath);
+      const sourceImageData = await readAvif(sourceImagePath);
 
       const sourceImage = await createImageFromImageData(sourceImageData);
       const exportCanvasContext = await createCanvasContext({

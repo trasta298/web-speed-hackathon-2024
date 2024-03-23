@@ -8,7 +8,6 @@
     "build:tsup": "tsup --metafile"
   },
   "dependencies": {
-    "@jsquash/jxl": "1.1.0",
     "@wsh-2024/admin": "workspace:*",
     "@wsh-2024/app": "workspace:*",
     "fzstd": "0.1.0",
