@@ -8,6 +8,7 @@ import { EpisodeListItem } from '../../features/episode/components/EpisodeListIt
 import { Box } from '../../foundation/components/Box';
 import { Flex } from '../../foundation/components/Flex';
 import { Separator } from '../../foundation/components/Separator';
+import { Spacer } from '../../foundation/components/Spacer';
 import { Space } from '../../foundation/styles/variables';
 
 import { ComicViewer } from './internal/ComicViewer';
@@ -40,7 +41,22 @@ const EpisodeDetailPage: React.FC = () => {
 
 const EpisodeDetailPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={
+      <>
+        <Spacer height={500} />
+        <Separator />
+        <Box aria-label="エピソード一覧" as="section" px={Space * 2}>
+          <Flex align="center" as="ul" direction="column" justify="center">
+            {[...Array(5)].map((_, index) => (
+              <div key={index}>
+                <Spacer height={Space * 1.5 * 2 + 96} />
+                <Separator />
+              </div>
+            ))}
+          </Flex>
+        </Box>
+      </>
+    }>
       <EpisodeDetailPage />
     </Suspense>
   );
