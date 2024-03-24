@@ -27,3 +27,4 @@ dist-ssr
 build
 
 workspaces/testing/src/client/**/
+workspaces/server/tmp/
