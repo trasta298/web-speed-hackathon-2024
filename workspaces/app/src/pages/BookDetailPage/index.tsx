@@ -62,7 +62,7 @@ const BookDetailPage: React.FC = () => {
   const latestEpisode = book.episodes?.find((episode) => episode.chapter === 1);
 
   return (
-    <Box height="100%" position="relative" px={Space * 2}>
+    <>
       <_HeadingWrapper aria-label="作品情報">
         {bookImageUrl != null && (
           <Image alt={book.name} height={256} objectFit="cover" src={bookImageUrl} width={192} />
@@ -117,15 +117,40 @@ const BookDetailPage: React.FC = () => {
           )}
         </Flex>
       </section>
-    </Box>
+    </>
   );
 };
 
+const HeadingDummy = styled.div`
+  height: 256px;
+  padding-bottom: ${Space * 2}px;
+`;
+
+const EpisodeListDummy = styled.div`
+  height: 96px;
+`;
+
 const BookDetailPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={null}>
-      <BookDetailPage />
-    </Suspense>
+    <Box height="100%" position="relative" px={Space * 2}>
+      <Suspense fallback={
+        <>
+          <HeadingDummy />
+          <Separator />
+          <Flex align="center" as="ul" direction="column" justify="center">
+            {[...Array(3)].map((_, index) => (
+              <div key={index}>
+                <EpisodeListDummy />
+                <Spacer height={Space * 1.5} />
+                <Separator />
+              </div>
+            ))}
+          </Flex>
+        </>
+      }>
+        <BookDetailPage />
+      </Suspense>
+    </Box>
   );
 };
 
