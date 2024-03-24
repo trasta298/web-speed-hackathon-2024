@@ -30,9 +30,9 @@ export const FavButton: React.FC<Props> = ({ enabled, onClick }) => {
       onClick={onClick}
     >
       {enabled ? (
-        <FavoriteIcon height={24} style={{ color: Color.Favorite }} width={24} />
+        <FavoriteIcon style={{ color: Color.Favorite, height: 24, width: 24 }} />
       ) : (
-        <FavoriteBorderIcon height={24} style={{ color: Color.MONO_40 }} width={24} />
+        <FavoriteBorderIcon style={{ color: Color.MONO_40, height: 24, width: 24 }} />
       )}
     </_Button>
   );

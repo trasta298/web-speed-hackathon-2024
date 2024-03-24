@@ -51,7 +51,7 @@ export const Dialog: React.FC = () => {
     <_Overlay>
       <_Wrapper>
         <_CloseButton onClick={() => updateContent(null)}>
-        <CloseIcon height={32} style={{ color: Color.MONO_A }} width={32} />
+        <CloseIcon style={{ color: Color.MONO_A, height: 32, width: 32 }} />
         </_CloseButton>
         <_Container>{content}</_Container>
       </_Wrapper>
