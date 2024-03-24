@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { ComicViewerCore } from '../../../features/viewer/components/ComicViewerCore';
@@ -19,10 +19,11 @@ const _Container = styled.div`
 const _Wrapper = styled.div<{
   $maxHeight: number;
 }>`
+  background-color: black;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
-  max-height: ${({ $maxHeight }) => addUnitIfNeeded($maxHeight)};
+  height: ${({ $maxHeight }) => addUnitIfNeeded($maxHeight)};
   overflow: hidden;
 `;
 
