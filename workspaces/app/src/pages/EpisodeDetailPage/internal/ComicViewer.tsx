@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useInterval, useUpdate } from 'react-use';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { ComicViewerCore } from '../../../features/viewer/components/ComicViewerCore';
@@ -28,14 +27,9 @@ const _Wrapper = styled.div<{
 `;
 
 const clamp = (num: number, boundOne: number, boundTwo: number) => {
-  if (!boundTwo) {
-    return Math.max(num, boundOne) === boundOne ? num : boundOne;
-  } else if (Math.min(num, boundOne) === num) {
-    return boundOne;
-  } else if (Math.max(num, boundTwo) === num) {
-    return boundTwo;
-  }
-  return num;
+  const lowerBound = Math.min(boundOne, boundTwo);
+  const upperBound = Math.max(boundOne, boundTwo);
+  return Math.min(Math.max(num, lowerBound), upperBound);
 };
 
 type Props = {
@@ -43,26 +37,30 @@ type Props = {
 };
 
 export const ComicViewer: React.FC<Props> = ({ episodeId }) => {
-  // 画面のリサイズに合わせて再描画する
-  const rerender = useUpdate();
-  useInterval(rerender, 0);
+  const [viewerHeight, setViewerHeight] = useState<number>(MIN_VIEWER_HEIGHT);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const [el, ref] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const updateSize = () => {
+      const cqw = (containerRef.current?.getBoundingClientRect().width ?? 0) / 100;
+      const pageCountParView = 100 * cqw <= 2 * MIN_PAGE_WIDTH ? 1 : 2;
+      const candidatePageWidth = (100 * cqw) / pageCountParView;
+      const candidatePageHeight = (candidatePageWidth / IMAGE_WIDTH) * IMAGE_HEIGHT;
+      const newViewerHeight = clamp(candidatePageHeight, MIN_VIEWER_HEIGHT, MAX_VIEWER_HEIGHT);
 
-  // コンテナの幅
-  const cqw = (el?.getBoundingClientRect().width ?? 0) / 100;
+      setViewerHeight(newViewerHeight);
+    };
 
-  // 1画面に表示できるページ数（1 or 2）
-  const pageCountParView = 100 * cqw <= 2 * MIN_PAGE_WIDTH ? 1 : 2;
-  // 1ページの幅の候補
-  const candidatePageWidth = (100 * cqw) / pageCountParView;
-  // 1ページの高さの候補
-  const candidatePageHeight = (candidatePageWidth / IMAGE_WIDTH) * IMAGE_HEIGHT;
-  // ビュアーの高さ
-  const viewerHeight = clamp(candidatePageHeight, MIN_VIEWER_HEIGHT, MAX_VIEWER_HEIGHT);
+    // 初回とウィンドウサイズ変更時にサイズを更新
+    updateSize();
+    window.addEventListener('resize', updateSize);
+
+    // コンポーネントのアンマウント時にイベントリスナーを削除
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
 
   return (
-    <_Container ref={ref}>
+    <_Container ref={containerRef}>
       <_Wrapper $maxHeight={viewerHeight}>
         <ComicViewerCore episodeId={episodeId} />
       </_Wrapper>
