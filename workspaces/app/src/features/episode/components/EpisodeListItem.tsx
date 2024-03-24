@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import type { GetBookResponse } from '@wsh-2024/schema/src/api/books/GetBookResponse';
+
 import { Box } from '../../../foundation/components/Box';
 import { Flex } from '../../../foundation/components/Flex';
 import { Image } from '../../../foundation/components/Image';
@@ -9,7 +11,6 @@ import { Spacer } from '../../../foundation/components/Spacer';
 import { Text } from '../../../foundation/components/Text';
 import { useImage } from '../../../foundation/hooks/useImage';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
-import { useEpisode } from '../hooks/useEpisode';
 
 const _Wrapper = styled.li`
   width: 100%;
@@ -28,19 +29,16 @@ const _ImgWrapper = styled.div`
 `;
 
 type Props = {
-  bookId: string;
-  episodeId: string;
+  book: GetBookResponse;
+  episode: GetBookResponse['episodes'][number];
 };
 
-export const EpisodeListItem: React.FC<Props> = ({ bookId, episodeId }) => {
-  // TODO: なくす
-  const { data: episode } = useEpisode({ params: { episodeId } });
-
-  const imageUrl = useImage({ height: 96, imageId: episode.image.id, width: 96 });
+export const EpisodeListItem: React.FC<Props> = ({ book, episode }) => {
+  const imageUrl = useImage({ height: 96, imageId: episode.imageId, width: 96 });
 
   return (
     <_Wrapper>
-      <_Link href={`/books/${bookId}/episodes/${episode.id}`}>
+      <_Link href={`/books/${book.id}/episodes/${episode.id}`}>
         <Spacer height={Space * 1.5} />
         <Flex align="flex-start" gap={Space * 2.5} justify="flex-start">
           {imageUrl != null && (

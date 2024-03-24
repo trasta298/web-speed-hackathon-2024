@@ -60,7 +60,11 @@ class BookRepository implements BookRepositoryInterface {
           },
           episodes: {
             columns: {
+              chapter: true,
+              description: true,
               id: true,
+              imageId: true,
+              name: true,
             },
           },
           image: {

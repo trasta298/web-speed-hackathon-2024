@@ -28,6 +28,7 @@ export const GetBookResponseSchema = createSelectSchema(book)
         chapter: true,
         description: true,
         id: true,
+        imageId: true,
         name: true,
       })
       .array(),
